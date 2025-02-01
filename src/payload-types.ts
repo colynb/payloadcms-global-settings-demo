@@ -238,19 +238,18 @@ export interface GeneralSetting {
  */
 export interface Navigation {
   id: number;
-  menus?:
-    | {
-        menuName: string;
-        menuItems?:
-          | {
-              URL: string;
-              Label: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-      }[]
-    | null;
+  menus: {
+    menuName: string;
+    menuSlug: string;
+    menuItems?:
+      | {
+          URL: string;
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -274,11 +273,12 @@ export interface NavigationSelect<T extends boolean = true> {
     | T
     | {
         menuName?: T;
+        menuSlug?: T;
         menuItems?:
           | T
           | {
               URL?: T;
-              Label?: T;
+              label?: T;
               id?: T;
             };
         id?: T;

@@ -1,4 +1,5 @@
 import { GlobalConfig } from 'payload'
+import slugify from 'slugify'
 
 export const Navigation: GlobalConfig = {
   slug: 'navigation',
@@ -6,10 +7,11 @@ export const Navigation: GlobalConfig = {
     {
       name: 'menus',
       type: 'array',
+      required: true,
       admin: {
         initCollapsed: true,
         components: {
-          RowLabel: '/components/admin/menu-row-label#MenuRowLabel',
+          RowLabel: '@/components/admin/menu-row-label#MenuRowLabel',
         },
       },
       fields: [
@@ -20,10 +22,22 @@ export const Navigation: GlobalConfig = {
           required: true,
         },
         {
+          name: 'menuSlug',
+          type: 'text',
+          required: true,
+          hooks: {
+            beforeValidate: [({ siblingData }) => slugify(siblingData.menuName, { lower: true })],
+          },
+          index: true,
+        },
+        {
           name: 'menuItems',
           type: 'array',
           admin: {
             initCollapsed: true,
+            components: {
+              RowLabel: '@/components/admin/menu-item-row-label#MenuItemRowLabel',
+            },
           },
           fields: [
             {
@@ -32,7 +46,7 @@ export const Navigation: GlobalConfig = {
               required: true,
             },
             {
-              name: 'Label',
+              name: 'label',
               type: 'text',
               required: true,
             },
